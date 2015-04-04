@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'necklace'
-  s.version     = '0.1.0'
+  s.version     = '0.1.1'
   s.date        = '2010-04-28'
   s.summary     = "Clojures -> macro for ruby"
   s.description = "Implements Clojures threading macros for Ruby Enumerable methods"
