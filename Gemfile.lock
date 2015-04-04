@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    necklace (0.0.0)
+    necklace (0.0.1)
 
 GEM
   remote: http://rubygems.org/

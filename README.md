@@ -96,6 +96,42 @@ through([1, 3, 5, 7, 9],
 )
 ```
 
+For methods that have multiple arguments, both a `through_first` and
+`through_last` method are provided. These thread the enumerable as the first or
+last argument of the method calls respectively. Methods with arguments in
+addition to the enumerable have the method and it's additional arguments
+packaged in an array:
+
+```ruby
+through_first([1, 3, 5, 7, 9],
+              [[:add_to_each, 3]
+               :double
+              ]
+             )
+```
+
+will call
+
+```ruby
+add_to_each([1, 3, 5, 7, 9], 3)
+```
+
+and
+
+```ruby
+through_last([1, 3, 5, 7, 9],
+             [[:add_to_each, 3]
+              :double
+             ]
+            )
+```
+
+will call
+
+```ruby
+add_to_each(3, [1, 3, 5, 7, 9])
+```
+
 ## License
 ### MIT
 

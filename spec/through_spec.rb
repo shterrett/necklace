@@ -12,7 +12,7 @@ describe 'Threading enumerable as argument' do
       def test_increment
         through([1, 3, 5, 7, 9],
                 [:increment]
-        )
+               )
       end
     end
 
@@ -37,7 +37,7 @@ describe 'Threading enumerable as argument' do
                 [:increment,
                  :double
                 ]
-        )
+               )
       end
 
       def test_double_increment
@@ -53,5 +53,31 @@ describe 'Threading enumerable as argument' do
 
     expect(test.test_increment_double).to eq([4, 8, 12, 16, 20])
     expect(test.test_double_increment).to eq([3, 7, 11, 15, 19])
+  end
+
+  it 'handles data that has been reduced from an enumerable to a value' do
+    class Test
+      include Necklace
+
+      def sum(numbers)
+        numbers.reduce(&:+)
+      end
+
+      def double(number)
+        number * 2
+      end
+
+      def test_sum_double
+        through([1, 2, 3, 4, 5],
+                [:sum,
+                 :double
+                ]
+               )
+      end
+    end
+
+    test = Test.new
+
+    expect(test.test_sum_double).to eq 30
   end
 end
