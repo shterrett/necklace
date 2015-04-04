@@ -10,7 +10,6 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 Dir['./spec/shared/**/*.rb'].sort.each { |f| require f }
 require_relative '../lib/necklace'
-require_relative 'spec'
 
 require 'rspec'
 

@@ -1,7 +1,100 @@
 # Necklace
 
+## What/Why
+
 Ports the `->` macro from Clojure to make long chains of Enumerable more
 readable
+
+Usually when chaining method calls in ruby, the names of the methods are
+descriptive and the chain is readable. (Note that this may violate the Law of
+Demeter, but this is simply an example). One can imagine something like
+
+```ruby
+food_processor.add(vinegar)
+              .add(garlic)
+              .add(pepper)
+              .start
+              .drizzle(oil)
+```
+
+Where each method returns `self` and the chain describes the actions.
+
+However, with Enumerable, because the methods are more abstract, readability is
+often sacrificed when chaining operations:
+
+```ruby
+[1, 3, 5, 7, 9].map do |n|
+  n + 1
+end.map do |n|
+  n * 2
+end.map |n|
+  n - 3
+end.select |n|
+  n.even?
+end
+```
+
+Two possible solutions are to name only the inner methods:
+
+```ruby
+[1, 3, 5, 7, 9].map do |n|
+  increment(n)
+end.map do |n|
+  double(n)
+end.map |n|
+  subtract(n, 3)
+end.select |n|
+  n.even?
+end
+```
+
+or extract each transformation in a method and call them inside-out -
+lisp-style:
+
+```ruby
+even(
+  subtract_three(
+    double(
+      incrememnt([1, 3, 5, 7, 9])
+    )
+  )
+)
+```
+
+This last looks a lot like a lisp, and Clojure has a macro to make calls like
+this easier to read:
+
+```clojure
+(-> [1, 3, 5, 7, 9]
+  increment
+  double
+  subtract_three
+  even
+)
+```
+
+**Necklace** attempts to replicate at least some aspects of the Clojure
+threading macros (`->`, `->>`) in ruby so that long chains of enumerable
+transformations can be called without sacrificing readablility.
+
+## Usage
+
+simply `include Necklace` in a class
+
+Then define methods that take each successive result as their argument.
+
+Then call `through` with the enumerable as the first argument and an array of
+symbols corresponding to the method names as the second argument.
+
+```ruby
+through([1, 3, 5, 7, 9],
+        [:increment,
+         :double,
+         :subtract_three,
+         :even
+        ]
+)
+```
 
 ## License
 ### MIT
